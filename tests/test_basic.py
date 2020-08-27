@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-
-from .context import drumgan
-gan = drumgan.DrumGAN()
-
 import unittest
 import numpy as np
+from .context import drumgan
+gan = drumgan.DrumGAN()
 
 
 class BasicTestSuite(unittest.TestCase):
