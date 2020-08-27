@@ -2,6 +2,7 @@ from .model.model import GAN
 from .helpers import to_tensor
 import torch
 import numpy as np
+from typing import Union
 
 
 def input_to_tensor_output_to_numpy(func):
@@ -23,16 +24,23 @@ class DrumGAN():
         )
 
     @input_to_tensor_output_to_numpy
-    def generate(self, z):
+    def generate(
+        self,
+        z: Union[torch.Tensor, np.ndarray, list]
+    ) -> np.ndarray:
         assert (z.shape == (1, 128))
         return self.model(z)[0][0]
 
-    def random_generate(self):
+    def random_generate(self) -> np.ndarray:
         z = torch.rand([1, 128])
         return self.generate(z)
 
     @input_to_tensor_output_to_numpy
-    def train_feature(self, y, iteration=500):
+    def train_feature(
+        self,
+        y: Union[torch.Tensor, np.ndarray, list],
+        iteration: int = 500
+    ) -> np.ndarray:
         assert (y.shape == (1, 1, 16384))
         z = torch.rand([1, 128])
         optim = torch.optim.Adam([z], lr=1e-3)
