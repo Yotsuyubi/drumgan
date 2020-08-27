@@ -18,6 +18,11 @@ class BasicTestSuite(unittest.TestCase):
         sample = gan.random_generate()
         self.assertEqual(sample.shape, (16384,))
 
+    def test_train_feature(self):
+        y = np.random.rand(1, 1, 16384)
+        sample = gan.train_feature(y, iteration=1)
+        self.assertEqual(sample.shape, (1, 128))
+
 
 if __name__ == '__main__':
     unittest.main()
