@@ -1,5 +1,5 @@
 from .model import GAN
-from .helpers import to_tensor
+from .helpers import to_tensor, download_model
 import torch
 import numpy as np
 from typing import Union
@@ -19,6 +19,7 @@ def input_to_tensor_output_to_numpy(func):
 class DrumGAN():
 
     def __init__(self, device='cpu'):
+        download_model()
         self.model = GAN(device=device)
         self.model.load_state_dict(
             torch.load(
