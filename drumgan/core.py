@@ -1,4 +1,4 @@
-from .model.model import GAN
+from .model import GAN
 from .helpers import to_tensor
 import torch
 import numpy as np
