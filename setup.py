@@ -21,7 +21,7 @@ with open('LICENSE') as f:
 
 setup(
     name='drumgan',
-    version='0.0.2',
+    version='0.0.3',
     description='Gan based drum synth.',
     long_description=readme,
     author='Yotsuyubi',

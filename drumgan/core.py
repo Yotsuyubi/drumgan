@@ -3,6 +3,8 @@ from .helpers import to_tensor
 import torch
 import numpy as np
 from typing import Union
+import os
+
 
 
 def input_to_tensor_output_to_numpy(func):
@@ -19,7 +21,10 @@ class DrumGAN():
     def __init__(self, device='cpu'):
         self.model = GAN(device=device)
         self.model.load_state_dict(
-            torch.load('drumgan/model/model.pt', map_location=device),
+            torch.load(
+                os.path.join(os.path.dirname(__file__), 'model/model.pt'),
+                map_location=device
+            ),
             strict=False
         )
 
