@@ -9,17 +9,19 @@ class BasicTestSuite(unittest.TestCase):
 
     def test_generate(self):
         z = np.random.rand(1, 128)
-        sample = gan.generate(z)
+        sample, z_out = gan.generate(z)
         self.assertEqual(sample.shape, (16384,))
+        self.assertEqual(z_out.shape, (1, 128))
 
     def test_random_generate(self):
-        sample = gan.random_generate()
+        sample, z_out = gan.random_generate()
         self.assertEqual(sample.shape, (16384,))
+        self.assertEqual(z_out.shape, (1, 128))
 
-    def test_train_feature(self):
+    def test_optim_feature(self):
         y = np.random.rand(1, 1, 16384)
-        sample = gan.train_feature(y, iteration=1)
-        self.assertEqual(sample.shape, (1, 128))
+        z = gan.optim_feature(y, iteration=1)
+        self.assertEqual(z.shape, (1, 128))
 
 
 if __name__ == '__main__':

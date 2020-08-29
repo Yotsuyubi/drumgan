@@ -12,19 +12,22 @@ def input_to_tensor_output_to_numpy(func):
         args = list(args)
         args[1] = to_tensor(args[1])
         res = func(*args, **kwargs)
-        return res.detach().numpy()
+        if len(res) > 1:
+            return (r.detach().numpy() for r in res)
+        else:
+            return res.detach().numpy()
     return wrapper
 
 
 class DrumGAN():
 
-    def __init__(self, device='cpu'):
+    def __init__(self):
         download_model()
-        self.model = GAN(device=device)
+        self.model = GAN(device='cpu')
         self.model.load_state_dict(
             torch.load(
                 os.path.join(os.path.dirname(__file__), 'model/model.pt'),
-                map_location=device
+                map_location='cpu'
             ),
             strict=False
         )
@@ -33,16 +36,16 @@ class DrumGAN():
     def generate(
         self,
         z: Union[torch.Tensor, np.ndarray, list]
-    ) -> np.ndarray:
+    ) -> (np.ndarray, np.ndarray):
         assert (z.shape == (1, 128))
-        return self.model(z)[0][0]
+        return self.model(z)[0][0], z
 
-    def random_generate(self) -> np.ndarray:
+    def random_generate(self) -> (np.ndarray, np.ndarray):
         z = torch.rand([1, 128])
         return self.generate(z)
 
     @input_to_tensor_output_to_numpy
-    def train_feature(
+    def optim_feature(
         self,
         y: Union[torch.Tensor, np.ndarray, list],
         iteration: int = 500
